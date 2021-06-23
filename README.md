@@ -1,2 +1,3 @@
 # Top-Emitting-Companies
-[Click Here to View the Chart](https://physicalpixel.github.io/Top-Emitting-Companies/bubbleChart.html)
+[Simple Bubble Chart](https://physicalpixel.github.io/Top-Emitting-Companies/bubbleChart.html)
+[First Draft](https://physicalpixel.github.io/Top-Emitting-Companies/Companies_first_draft.html)
