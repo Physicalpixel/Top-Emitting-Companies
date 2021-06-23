@@ -4,11 +4,11 @@
 
 <head>
 
-<h1>hello000</h1>
+<h1>Top Emitting Companies</h1>
 </head>
 
 <body>
-        <svg id="container"  height="1000" width ="1000">
+        <svg id="container"  height="800" width ="800">
 		</svg>
 
 </body>
@@ -23,8 +23,8 @@
 
 <script>
 		let padding=100
-			height=1000
-			width=1000
+			height=800
+			width=800
 		let svg = d3.select("svg")
 		
 		d3.csv("https://raw.githubusercontent.com/Physicalpixel/Top-Emitting-Companies/main/30Companies.csv").then(showData)
