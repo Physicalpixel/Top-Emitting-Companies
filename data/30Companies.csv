@@ -1,1 +1,33 @@
-
+Count,Company,Percentage,Country,Continent
+1,China (Coal),14.32 ,China ,Asia
+2,Saudi Arabian Oil Company (Aramco),4.50 ,Saudi Arabia ,Asia
+3,Gazprom OAO,3.91 ,Russia ,Asia
+4,National Iranian Oil Co,2.28 ,Iran ,Asia
+5,ExxonMobil Corp,1.98 ,United States ,North America
+6,Coal India,1.87 ,India ,Asia
+7,Petroleos Mexicanos (Pemex),1.87 ,Mexico ,South America
+8,Russia (Coal),1.86 ,Russia ,Asia
+9,Royal Dutch Shell PLC,1.67 ,Netherlands,Europe
+10,Royal Dutch Shell PLC,1.67 ,United Kingdom ,Europe
+11,China National Petroleum Corp (CNPC),1.56 ,China ,Asia
+12,BP PLC,1.53 ,United Kingdom ,Europe
+13,Chevron Corp,1.31 ,United States ,North America
+14,Petroleos de Venezuela SA (PDVSA),1.23 ,Venezuela ,South America
+15,Abu Dhabi National Oil Co,1.20 ,United Arab Emirates ,Asia
+16,Poland Coal,1.16 ,Poland ,Europe
+17,Peabody Energy Corp,1.15 ,United States ,North America
+18,Sonatrach SPA,1.00 ,Algeria ,Africa
+19,Kuwait Petroleum Corp,1.00 ,Kuwait ,Asia
+20,Total SA,0.95 ,France ,Europe
+21,BHP Billiton Ltd,0.91 ,Australia,Oceania
+22,BHP Billiton Ltd,0.91 ,United Kingdom ,Europe
+23,ConocoPhillips,0.91 ,United States,North America
+24,Petroleo Brasileiro SA (Petrobras),0.77 ,Brazil,South America
+25,Lukoil OAO,0.75 ,Russia,Asia
+26,Rio Tinto,0.75 ,United Kingdom,Europe
+27,Nigerian National Petroleum Corp,0.72 ,Nigeria,Africa
+28,Petroliam Nasional Berhad (Petronas),0.69 ,Malaysia,Asia
+29,Rosneft OAO,0.65 ,Russia,Asia
+30,Arch Coal Inc,0.63 ,United States,North America
+31,Iraq National Oil Co,0.60 ,Iraq,Asia
+32,Eni SPA,0.59 ,Italy,Europe
