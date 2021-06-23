@@ -8,7 +8,7 @@
 </head>
 
 <body>
-        <svg id="container"  height="800" width ="800">
+        <svg id="container"  height="1000" width ="1000">
 		</svg>
 
 </body>
@@ -23,8 +23,8 @@
 
 <script>
 		let padding=100
-			height=800
-			width=800
+			height=1000
+			width=1000
 		let svg = d3.select("svg")
 		
 		d3.csv("https://raw.githubusercontent.com/Physicalpixel/Top-Emitting-Companies/main/30Companies.csv").then(showData)
@@ -34,7 +34,7 @@
 		maxValue=d3.max(data, d=>d.Percentage)
 		let size= d3.scaleLinear()
 					.domain([0,maxValue])
-					.range([20,50]);					
+					.range([15,30]);					
 		
 					
 		var color = d3.scaleOrdinal()
