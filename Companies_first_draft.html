@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang= "en">
+<meta charset ="utf-8"/>
+
+<head>
+
+</head>
+
+<body>
+
+      <svg id="container" ></svg>
+
+</body>
+
+
+<style>
+
+
+ 
+  .axis line,
+  .axis circle {
+    fill: none;
+    stroke: steelblue;
+    stroke-dasharray: 4;
+  } 
+
+	#tooltip{
+			margin-top: 20px;
+			color: #000000;
+			font-size: 40px;
+  }
+	
+	
+</style>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-collection.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+
+
+<script>
+		 var width = 1000,
+          height = 1000,
+          radius = Math.min(width, height)/2.5 ;		
+		
+		var svg = d3.select("body").append("svg")
+          .attr("width", width)
+          .attr("height", height)
+		  .append("g")
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+		  		
+		
+		
+		var promises =
+			d3.csv("https://raw.githubusercontent.com/Physicalpixel/Top-Emitting-Companies/main/30companies.csv"),
+			d3.csv("https://raw.githubusercontent.com/Physicalpixel/Top-Emitting-Companies/main/Comp_Cont3.csv"),
+			d3.csv("https://raw.githubusercontent.com/Physicalpixel/Top-Emitting-Companies/main/Continent_Perc.csv")]
+		Promise.all(promises).then(ready)
+		
+		// to load multiple data files via with promise
+		function ready([company, cont, perc]) {
+		
+		//array of map with start and end angle for arc creation
+		var arcData = [
+			{startAngle: 213.75*Math.PI/180, endAngle: 360*Math.PI/180},
+			{startAngle: 101.25*Math.PI/180, endAngle: 191.25*Math.PI/180}				
+		];
+		
+		//rectangle for background gray
+		var rect =svg.append("rect")
+			.attr("x", 0-width)
+			.attr("y", 0-height)
+			.attr("width", width*2)
+			.attr("height", height*2)
+			.attr("fill", "LightGray")
+			
+		
+		var arcGenerator = d3.arc()
+			.innerRadius(10)
+			.outerRadius(radius)
+			//.padAngle(.8)
+			//.padRadius(100)
+			.cornerRadius(10);	
+			
+		svg.append('g')
+			.selectAll('path')
+			.data(arcData)
+			.join('path')
+			//The d attribute defines a path to be drawn. 
+			//A path definition is a list of path commands where 
+			//each command is composed of a command letter and 
+			//numbers that represent the command parameters.
+			.attr('d', arcGenerator)
+			.attr("fill", "white")
+			.attr("stroke", "grey")
+
+
+		
+		maxValue=d3.max(cont, d=>d.Max_perc)
+		
+		//ordinal scale gives one value each from the range to the value to be mapped in the domain.
+		//if the number of values in domain is more than the values in range, then range start from 
+		//beginning again. 
+		//for example to map [1,2,3] to ["red", "white"]--once 1 and 2 get its value red and white
+		//it starts from the beginning for 3 and gets "red"
+		//its a one to one mapping
+		var color = d3.scaleOrdinal()
+				.domain([0 , maxValue])
+				.range(["#F8B195","#F67280","#C06C84", "#6C5B7B","#355C7D" , "#2980b9" ])
+		//mapping for the radius of the bubbles to percentage of each company		
+		let size= d3.scaleLinear()
+					.domain([0,maxValue])
+					.range([20,50]);	
+		//mapping for the radius for the positions of the bubble with polar coordinates
+		var r = d3.scaleLinear()
+					  .domain([maxValue+10,0])
+					  .range([100, radius]);
+		//background dashed circles			  
+		var BGcircles = svg.append("g")
+		//r axis is being picked from the style list above, it mentions zero fill and dashed lines of circles
+				.attr("class", "r axis")
+				.selectAll("g")
+				.data(r.ticks(maxValue*0.5).slice(1))
+				.enter().append("g");		
+		
+		BGcircles.append("circle")
+          .attr("r", r)
+		  .style("opacity", 0.3)
+		  
+		// creating a map with key as continent name and values as start angle, 
+		//end angle and max percentage of each continent. To be used in the radial scale
+		//for the polar coordinates generation		
+		var cont_map = new Map();
+		d3.map(cont, function (d) {
+				cont_map.set(d.Continent,
+					[d.Start_angle, d.End_angle, d.Max_perc])
+			})
+		//this map is used to get an array of percentages of all the companies.
+		//for the radual scale.
+		//currently not being used this piece is not being used
+		/*var band_map= new Map()
+		var arr_perc=[]		
+		d3.map(company, function (d) {
+		arr_perc.push(d.Percentage)					
+		if (band_map.has(d.Continent)){
+		band_map.get(d.Continent).push(d.Percentage)		
+		}
+		else {
+		band_map.set(d.Continent, [d.Percentage])
+		}
+		})
+		var band = d3.scaleBand()
+		.range([0, 2 * Math.PI])  
+		.domain( (function(d) { return d.Percentage; }) );*/
+		
+		///==============================================//
+		
+		//these arrays hold ranges of percentage values.
+		//every array will be mapped to whole range of continent-total angle 
+		//range so that the bubbles are evenly disrtibuted.
+		//for aesthetics purpose  and to uniformly spread the bubbles in the angle range
+		//and to avoid overlaps
+		sub_arr1=[]		
+		sub_arr2=[]
+		sub_arr3=[]
+		sub_arr4=[]	
+		//this map creates the array	
+		d3.map(company, function (d) {
+				if (d.Percentage>=3 && d.Percentage<=15) {					
+					sub_arr1.push(d.Percentage)
+					
+				}else if (d.Percentage>=1.5 && d.Percentage<3) {					
+					sub_arr2.push(d.Percentage)
+					
+				}else if (d.Percentage>=1 && d.Percentage<1.5) {					
+					sub_arr3.push(d.Percentage)
+					
+				}else if (d.Percentage>=0.5 && d.Percentage<1) {					
+					sub_arr4.push(d.Percentage)
+					
+				}
+			})
+		
+			
+				
+		//radial scale for polar coordinate generation gives an angle and radius for each bubble based on 
+		//max percentage value per continent,  start and the end angle.
+		var line = d3.radialLine()
+			//gives the angle of the polar coordinate
+			.angle(function(d) {
+					//here the cont_map.get gives key value pair of continent and its values
+					var cont_angle_max_pct_data = cont_map.get(d.Continent);
+					//getting the values for values above 
+					var cont_max_pct = cont_angle_max_pct_data[2]; 
+					//multiplying by Math.PI/180 to convert degrees to radians
+					var cont_start_angle = (cont_angle_max_pct_data[0])*Math.PI/180;
+					var cont_end_angle = (cont_angle_max_pct_data[1])*Math.PI/180;
+					
+					//using the arrays of ranges for scale band.
+					var sub_arr = sub_arr4;
+					if(d.Percentage>=3 && d.Percentage<=15){
+						sub_arr = sub_arr1;
+					}else if(d.Percentage>=1.5 && d.Percentage<3){
+						sub_arr =  sub_arr2;
+					}else if(d.Percentage>=1 && d.Percentage<1.5){
+						sub_arr =  sub_arr3;
+					}else if(d.Percentage>=0.5 && d.Percentage<1){
+						sub_arr =  sub_arr4
+					}
+					//Scale band evenly distributes the range to the domain values.
+					//gives the same amount of area/value/range to the domain value to be mapped.
+					//here every value in the array will get equal values from the range
+					var continent_angle_scale_fn = d3.scaleBand()					
+						.domain(sub_arr)// band_map.get(d.Continent) );
+						.range([ cont_end_angle, cont_start_angle+0.2 ]);
+					//here for each percentage value that comes in gets checked as to which array or range it 
+//falls 			into and gets mapped to the total angle of the continent.			
+					return continent_angle_scale_fn(d.Percentage);
+				})
+			//this gives the radius of the polar coordinate				
+			.radius(function(d) {
+				//radius has been segregated based of ranges of percentage values.
+				//this is so that the bubble doesn't get clustered or stay in the closer
+				//radius vakues.
+				//for aesthetics purpose and to avoid overlaps
+				if (d.Percentage>=14){
+				return radius-(46*5);
+				}else if(d.Percentage>=3 && d.Percentage<14){
+				return radius-(46*4.5)
+				}else if(d.Percentage>=2.5 && d.Percentage<3){
+				return radius-(46*4)
+				}else if(d.Percentage>=2 && d.Percentage<2.5){
+				return radius-(46*3.5)
+				}else if(d.Percentage>=1.5 && d.Percentage<2){
+				return radius-(46*3)
+				}else if(d.Percentage>=1 && d.Percentage<1.5){
+				return radius-(46*2)
+				}else if(d.Percentage>=0.5 && d.Percentage<1){
+				return radius-(46)
+				}else {
+				return radius-20}
+				
+				
+				//console.log(d.Continent, d.Company, d.Percentage, r(d.Percentage))
+				//return 200-(10*d.Percentage);
+			});
+			
+		//creates tooltip at the bottom , also picks style from above.	
+		let tooltip = d3.select('body')
+                    .append('div')
+                    .attr('id', 'tooltip')
+                    .style('visibility', 'hidden')
+                    .style('width',100 )
+                    .style('height',100)
+		
+		//creates the circle in the center for title
+		var center_circle=svg.append("g")		
+			.append("circle")
+			.attr("fill", "LightGray")
+			.attr("r", 130)
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.style("stroke", "gray")
+		//these are the circles behind every bubble. this takes all the values and mapping same
+		//as the bubbles.
+		var white_individual_bubble_background=
+			svg.append("g")
+			.selectAll("circle")		
+			.data(company)
+			.enter()
+			.append("circle")
+			.attr("fill", "white")
+			.attr("r", d=>size(d.Percentage)+8)
+			.attr("transform", function(d) {
+				var coors = line([d]).slice(1).slice(0, -1);
+				return "translate(" + coors + ")"
+						
+			})	
+		//circles for the bubbles	
+		var nodes=svg.append("g")
+			.selectAll("circle")		
+			.data(company)
+			.enter()
+			.append("circle")
+			//takes color for the ordinal scale of colors, mapped 6 colors to 6 continents
+			.attr("fill", function(d){return color(d.Continent)})
+			//radius as percentage values
+			.attr("r", d=>size(d.Percentage))
+			//here the line gives the value of coors as an angle and radius
+			//the values of polar coordinate comes with notation which includes 
+			//alphabets such as 'M'(move to) etc. slice removes the same to clean the values
+			.attr("transform", function(d) {
+				var coors = line([d]).slice(1).slice(0, -1);
+				return "translate(" + coors + ")"
+						
+			})	
+			//actions mouseover and mouse out for the tooltip behaviour/transition
+			.on("mouseover", (d) => {
+							tooltip.transition()
+							.style("visibility", "visible")
+
+							tooltip.text(d.Company+","+d.Percentage+","+d.Continent)
+							})
+		    .on("mouseout", (item) => {
+							tooltip.transition()
+							.style("visibility", "hidden")
+							})    
+						
+							
+			
+		  
+		//this piece of code is  pasted again witha a different
+		//variable to be used for the placement of the text at the same place as the bubbles
+		var line2 = d3.radialLine()
+			.angle(function(d) {
+					var cont_angle_max_pct_data = cont_map.get(d.Continent);
+					var cont_max_pct = cont_angle_max_pct_data[2]; 
+					var cont_start_angle = (cont_angle_max_pct_data[0])*Math.PI/180;
+					var cont_end_angle = (cont_angle_max_pct_data[1])*Math.PI/180;
+					
+					var sub_arr = sub_arr4;
+					if(d.Percentage>=3 && d.Percentage<=15){
+						sub_arr = sub_arr1;
+					}else if(d.Percentage>=1.5 && d.Percentage<3){
+						sub_arr =  sub_arr2;
+					}else if(d.Percentage>=1 && d.Percentage<1.5){
+						sub_arr =  sub_arr3;
+					}else if(d.Percentage>=0.5 && d.Percentage<1){
+						sub_arr =  sub_arr4
+					}
+					
+					var continent_angle_scale_fn = d3.scaleBand()					
+						.domain(sub_arr)// band_map.get(d.Continent) );
+						.range([ cont_end_angle, cont_start_angle+0.2]);
+												
+					return continent_angle_scale_fn(d.Percentage);
+				})
+							
+			.radius(function(d) {
+				if (d.Percentage>=14){
+				return radius-(46*4.9);
+				}else if(d.Percentage>=3 && d.Percentage<14){
+				return radius-(46*4.4)
+				}else if(d.Percentage>=2.5 && d.Percentage<3){
+				return radius-(46*3.9)
+				}else if(d.Percentage>=2 && d.Percentage<2.5){
+				return radius-(46*3.4)
+				}else if(d.Percentage>=1.5 && d.Percentage<2){
+				return radius-(46*2.9)
+				}else if(d.Percentage>=1 && d.Percentage<1.5){
+				return radius-(46*1.9)
+				}else if(d.Percentage>=0.5 && d.Percentage<1){
+				return radius-(45)
+				}else {
+				return radius-19}
+				
+			});
+		let size2= d3.scaleLinear()
+					.domain([0,maxValue])
+					.range([10,12]);	
+		var text=svg.append("g")
+					.selectAll("text")
+					.data(company)
+					.enter()
+					.append('text')
+					.text(d => d.Company)
+					.attr('fill', 'black')
+					.attr("transform", function(d) {
+						var coors = line2([d]).slice(1).slice(0, -1);
+						console.log(coors)
+						return "translate(" + coors + ")"								
+								})	
+					.attr("text-anchor", "middle")
+					.attr("font-family", "sans-serif")
+					.attr("font-size", d=>size2(d.Percentage))
+					.attr("dx", ".71em")
+		
+		//text for center circle
+		var center_circle=svg.append("g")		
+			.append("text")
+			.text("Top 30 Emitting Companies")
+			.attr("fill", "black")
+			.attr("text-anchor", "middle")
+			.attr("font-size",20)
+			
+	
+	
+}
+</script>
+
+</html>
