@@ -1,0 +1,101 @@
+Count,Company,Real_Percentage,Country,Continent,Percentage,R_Company
+17,Sonatrach,1.00 ,Algeria ,Africa,1.00 ,Sonatrach SPA
+56,Sonangol EP,0.26 ,Angola,Africa,0.26 ,Sonangol EP
+70,YPF,0.15 ,Argentina,South America,0.15 ,YPF SA
+20,BHP Billiton,0.91 ,Australia,Oceania,0.91 ,BHP Billiton Ltd
+94,OMV AG,0.06 ,Austria,Europe,0.07,OMV AG
+87,BAPCO,0.10 ,Bahrain,Asia,0.10 ,BAPCO
+22,Petrobras,0.77 ,Brazil,South America,0.77 ,Petroleo Brasileiro SA (Petrobras)
+92,Teck Resources,0.09 ,Canada,North America,0.03,Teck Resources Ltd
+67,Canadian Natural Resources,0.17 ,Canada,North America,0.09,Canadian Natural Resources Ltd
+66,Encana,0.18 ,Canada,North America,0.2,Encana Corp
+60,Suncor Energy,0.22 ,Canada,North America,0.35,Suncor Energy Inc
+1,China (Coal),14.32 ,China,Asia,14.32 ,China (Coal)
+51,Sinopec,0.29 ,China ,Asia,0.29 ,Sinopec
+52,CNOOC,0.28 ,China ,Asia,0.3,CNOOC
+10,CNPC,1.56 ,China ,Asia,1.56 ,CNPC
+53,Ecopetrol,0.27 ,Colombia,South America,0.27 ,Ecopetrol SA
+50,Czech Republic Coal,0.30 ,Czech,Europe,0.30 ,Czech Republic Coal
+82,Maersk,0.11 ,Denmark,Europe,0.11 ,AP Moller (Maersk)
+79,Petroleos del Ecuador,0.12 ,Ecuador,South America,0.12 ,Petroleos del Ecuador
+48,Egyptian General Petroleum,0.31 ,Egypt,Africa,0.31 ,Egyptian General Petroleum Corp
+19,Total SA,0.95 ,France ,Europe,0.95 ,Total SA
+41,RWE AG,0.47 ,Germany,Europe,0.47 ,RWE AG
+54,Singareni Collieries,0.27 ,India,Asia,0.27 ,Singareni Collieries Company
+42,ONGC,0.40 ,India,Asia,0.6,Oil & Natural Gas Corp Ltd
+6,Coal India,1.87 ,India,Asia,1.87 ,Coal India
+99,Indika Energy,0.04 ,Indonesia,Asia,0.02,Indika Energy Tbk PT
+98,Bukit Asam,0.05 ,Indonesia,Asia,0.05,Bukit Asam (Persero) Tbk PT
+97,Berau Coal,0.06 ,Indonesia,Asia,0.09,Berau Coal Energy Tbk PT
+78,Adaro Energy,0.13 ,Indonesia,Asia,0.29,Adaro Energy PT
+86,Kideco,0.10 ,Indonesia,Asia,0.5,Kideco Jaya Agung PT
+59,Bumi Resources,0.23 ,Indonesia,Asia,1,Bumi Resources
+35,PT Pertamina,0.54 ,Indonesia,Asia,1.5,PT Pertamina
+4,National Iranian Oil,2.28 ,Iran ,Asia,2.28 ,National Iranian Oil Co
+29,Iraq National Oil Co,0.60 ,Iraq,Asia,0.5,Iraq National Oil Co
+30,Eni SPA,0.59 ,Italy,Europe,1.6,Eni SPA
+80,Inpex,0.12 ,Japan,Asia,0.12 ,Inpex Corp
+77,KazMunayGas,0.13 ,Kazakhstan,Asia,0.13 ,KazMunayGas
+36,Kazakhstan Coal,0.53 ,Kazakhstan,Asia,0.53 ,Kazakhstan Coal
+18,Kuwait Petroleum,1.00 ,Kuwait ,Asia,1.00 ,Kuwait Petroleum Corp
+38,Nat'l Oil Corp of Libya,0.50 ,Libya,Africa,0.50 ,National Oil Corporation of Libya
+26,Petronas,0.69 ,Malaysia,Asia,0.69 ,Petroliam Nasional Berhad (Petronas)
+7,Pemex,1.87 ,Mexico ,South America,1.87 ,Petroleos Mexicanos (Pemex)
+9,Royal Dutch Shell,1.67 ,Netherlands,Europe,1.67 ,Royal Dutch Shell PLC
+25,Nigerian Nat'l Petroleum,0.72 ,Nigeria,Africa,0.72 ,Nigerian National Petroleum Corp
+58,North Korea Coal,0.23 ,North Korea,Asia,0.23 ,North Korea Coal
+61,Petoro AS,0.21 ,Norway,North America,0.21 ,Petoro AS
+37,Statoil ASA,0.52 ,Norway,Europe,0.52 ,Statoil ASA
+49,Petroleum Development Oman,0.31 ,Oman,Asia,0.2,Petroleum Development Oman LLC
+15,Poland Coal,1.16 ,Poland ,Europe,1.16 ,Poland Coal
+34,Qatar Petroleum Corp,0.54 ,Qatar,Asia,0.54 ,Qatar Petroleum Corp
+75,Novatek,0.14 ,Russia,Asia,0.04,Novatek OAO
+57,Tatneft OAO,0.23 ,Russia,Asia,0.23 ,Tatneft OAO
+32,Surgutneftegas,0.57 ,Russia,Asia,0.57,Surgutneftegas OAO
+27,Rosneft OAO,0.65 ,Russia,Asia,0.6,Rosneft OAO
+23,Lukoil,0.75 ,Russia,Asia,0.75 ,Lukoil OAO
+8,Russia (Coal),1.86 ,Russia,Asia,1.86 ,Russia (Coal)
+3,Gazprom,3.91 ,Russia,Asia,3.91,Gazprom OAO
+2,Aramco,4.50 ,Saudi Arabia,Asia,3,Aramco
+69,Exxaro,0.16 ,South Africa,Africa,0.16 ,Exxaro Resources Ltd
+45,Sasol,0.35 ,South Africa,Africa,0.35 ,Sasol Ltd
+46,Repsol,0.33 ,Spain,Europe,0.2,Repsol SA
+43,Glencore,0.38 ,Switzerland,Europe,0.5,Glencore PLC
+74,Syrian Petroleum,0.15 ,Syria,Asia,0.15 ,Syrian Petroleum Co
+83,Banpu Public,0.11 ,Thailand,Asia,0.5,Banpu Public Co Ltd
+93,Turkmennebit,0.07 ,Turkmenistan,Asia,0.07 ,Turkmennebit
+44,TurkmenGaz,0.36 ,Turkmenistan,Asia,0.23,TurkmenGaz
+40,Ukraine Coal,0.49 ,Ukraine,Europe,0.49 ,Ukraine Coal
+14,Abu Dhabi National Oil,1.20 ,United Arab Emirates ,Asia,1.9,Abu Dhabi National Oil Co
+31,Anglo American,0.59 ,United Kingdom,Europe,0.59,Anglo American
+24,Rio Tinto,0.75 ,United Kingdom,Europe,1.125,Rio Tinto
+11,BP PLC,1.53 ,United Kingdom,Europe,1.53 ,BP PLC
+100,Southwestern Energy,0.04 ,United States,North America,0.02,Southwestern Energy Co
+95,Noble Energy,0.06 ,United States,North America,0.029,Noble Energy Inc
+91,Drummond,0.09 ,United States,North America,0.06,Drummond Co
+84,EOG Resources,0.11 ,United States,North America,0.145,EOG Resources Inc
+90,Chesapeake Energy,0.10 ,United States,North America,0.11,Chesapeake Energy Corp
+81,Kiewit Mining,0.12 ,United States,North America,0.13,Kiewit Mining Group
+85,Husky Energy,0.11 ,United States,North America,0.15,Husky Energy Inc
+64,Marathon Oil,0.19 ,United States,North America,0.17,Marathon Oil Corp
+73,Alliance Resource,0.15 ,United States,North America,0.19,Alliance Resource Partners LP
+68,Hess,0.16 ,United States,North America,0.21,Hess Corp
+71,Apache Corp,0.15 ,United States,North America,0.23,Apache Corp
+72,Murray Coal,0.15 ,United States,North America,0.26,Murray Coal
+76,NACCO Industries,0.13 ,United States,North America,0.16,NACCO Industries Inc
+88,Westmoreland Coal,0.10 ,United States,North America,0.31,Westmoreland Coal Co
+62,Devon Energy,0.20 ,United States,North America,0.33,Devon Energy Corp
+89,Cloud Peak Energy,0.10 ,United States,North America,0.36,Cloud Peak Energy Inc
+63,Natural Resource Partn.,0.19 ,United States,North America,0.39,Natural Resource Partners LP
+96,Murphy Oil,0.06 ,United States,North America,0.41,Murphy Oil Corp
+55,Occidental,0.26 ,United States,North America,0.45 ,Occidental Petroleum Corp
+65,Vistra Energy,0.19 ,United States,North America,0.47,Vistra Energy
+47,Anadarko,0.33 ,United States,North America,0.58,Anadarko Petroleum Corp
+39,Consol Energy,0.50 ,United States,North America,0.59,Consol Energy Inc
+33,Alpha Natural Resources,0.54 ,United States,North America,0.62,Alpha Natural Resources Inc
+28,Arch Coal Inc,0.63 ,United States,North America,0.69,Arch Coal Inc
+21,ConocoPhillips,0.91 ,United States,North America,1.18,ConocoPhillips
+16,Peabody Energy,1.15 ,United States,North America,1.3,Peabody Energy Corp
+12,Chevron Corp,1.31 ,United States,North America,1.35,Chevron Corp
+5,ExxonMobil,1.98 ,United States,North America,3,ExxonMobil Corp
+13,PDVSA,1.23 ,Venezuela ,South America,1.23 ,PDVSA
