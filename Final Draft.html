@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+
+<body></body>
+
+
+<style>
+    .axis line,
+    .axis circle {
+        fill: none;
+        stroke: steelblue;
+        stroke-dasharray: 4;
+    }
+    
+    #tooltip {
+        margin-top: 20px;
+        color: #000000;
+        font-size: 14px;
+    }
+</style>
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-collection.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+
+<script>
+    var width = 1000,
+        height = 1000,
+        radius = Math.min(width, height) / 2.5;
+
+    var svg = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(460, 550) rotate(25)")
+
+    var svg2 = d3.select("body").append("svg")
+        .attr("width", width / 3)
+        .attr("height", height)
+        .append("g")
+
+    //RECTANGLE BG=======================
+
+    var rect = svg.append("rect")
+        .attr("width", (width) * 2)
+        .attr("height", height * 2)
+        .attr("x", 0 - width)
+        .attr("y", 0 - height)
+        .attr("fill", "Lightgrey")
+
+    var promises = [
+        d3.csv("100companies_sorted.csv"),
+        d3.csv("Country_processed1.csv"),
+        d3.csv("Country_Perc.csv")
+    ]
+    Promise.all(promises).then(ready)
+
+    function ready([company, country, perc]) {
+
+        var maxPerc = 70
+
+        //RADIUS MAPPING=======================
+
+        var r = d3.scaleLinear()
+            .domain([0, maxPerc + 10])
+            .range([100, radius]);
+
+        var center = svg.append("g")
+
+
+        var center_circle = center
+            .append("circle")
+            .attr("fill", "none")
+            .attr("r", 130)
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .style("stroke", "gray")
+
+        /* center.append("image")
+             .attr("xlink:href", "https://github.com/favicon.ico")
+             .attr("x", 0 - 70)
+             .attr("y", 0 - 70)
+             .attr("width", 140)
+             .attr("height", 140);*/
+
+
+        //BG ARC=======================
+        var arcData = [{
+            startAngle: 0 * Math.PI / 180,
+            endAngle: 330 * Math.PI / 180
+        }];
+        var arcGenerator = d3.arc()
+            .innerRadius(140)
+            .outerRadius(radius + 20)
+            .padAngle(.02)
+            .padRadius(100)
+            .cornerRadius(10);
+
+        svg.append('g')
+            .selectAll('path')
+            .data(arcData)
+            .join('path')
+            .attr('d', arcGenerator)
+            .attr("fill", "white")
+            .attr("stroke", "grey")
+            .attr("stroke-width", 2)
+
+        var BGcircles = svg.append("g")
+            .attr("class", "r axis")
+            .selectAll("g")
+            .data(r.ticks(maxPerc / 8).slice(1))
+            .enter().append("g");
+
+        BGcircles.append("circle")
+            .attr("r", r)
+            .style("opacity", 0.3)
+
+        var color = d3.scaleOrdinal()
+            .domain([0, maxPerc])
+            //.range(["#fec965", "#feab4b", "#fd893c", "#fa5c2e", "#ec3023", "#d31121", "#af0225", "#800026"])
+            //.range(["#E65F8E", "#A86BD1", "#3AA5D1", "#3BB58F", "#3A63AD"])
+            //.range(["#4B2B31", "#B35340", "#233342", "#6F3637", "#CE8054"])
+            .range(["#2F9599 ", "#F26B38", "#622569 ", "#A7226E", "#D03454", "#9C2162", "#772F67", "#365c8d", "#FFCA3E", "#FF6F50"])
+            //.range(["#619ED6", "#6BA547", "#F7D027", "#E48F1B", "#B77EA3", "#E64345", "#60CEED", "#9CF168", "#F7EA4A", "#FBC543", "#FFC9ED", "#E6696E"])
+        let size = d3.scaleSqrt()
+            .domain([0, 14.32])
+            .range([2, 60])
+
+
+        var sub_arr1 = []
+        var sub_arr2 = []
+        var sub_arr3 = []
+        var sub_arr4 = []
+        var sub_arr5 = []
+        var sub_arr6 = []
+        var sub_arr7 = []
+
+
+        d3.map(company, function(d) {
+            if (d.Percentage >= 1.6 && d.Percentage <= 15) {
+                sub_arr1.push(d.Percentage)
+
+            } else if (d.Percentage >= 1.3 && d.Percentage < 1.6) {
+                sub_arr2.push(d.Percentage)
+
+            } else if (d.Percentage >= 1 && d.Percentage < 1.3) {
+                sub_arr3.push(d.Percentage)
+
+            } else if (d.Percentage >= 0.6 && d.Percentage < 1) {
+                sub_arr4.push(d.Percentage)
+
+            } else if (d.Percentage >= 0.3 && d.Percentage < 0.6) {
+                sub_arr5.push(d.Percentage)
+
+            } else if (d.Percentage >= 0.1 && d.Percentage < 0.3) {
+                sub_arr6.push(d.Percentage)
+
+            } else {
+                sub_arr7.push(d.Percentage)
+
+            }
+        })
+
+        var country_map = new Map();
+        var pct_array = []
+        d3.map(country, function(d) {
+            country_map.set(d.Country.trim(), [parseFloat(d.Start_angle), parseFloat(d.End_angle), parseFloat(d.Max_perc), d.angle])
+        })
+        d3.map(company, function(d) {
+            pct_array.push(parseFloat(d.Percentage))
+        })
+        pct_array.sort(d3.descending)
+
+        var inc = 0
+        var level_array = []
+        for (var i = 0; i < 100; i += inc) {
+            level_array.push(pct_array[i])
+            inc = inc + 5
+        }
+        console.log(pct_array)
+        var r_arr = [140]
+        var pad = 5
+        for (var i = 1; i < level_array.length; i++) {
+            r_arr.push(r_arr[i - 1] + size(level_array[i]) + size(level_array[i - 1]) + pad)
+
+        }
+        r_arr.push(r_arr[i - 1] + (size(level_array[i - 1]) + pad) * 2)
+
+
+        var line = d3.radialLine()
+            .angle(function(d) {
+                var cont_angle_max_pct_data = country_map.get(d.Country.trim());
+                var pad_angle = 0 * cont_angle_max_pct_data[3]
+                var cont_max_pct = parseFloat(cont_angle_max_pct_data[2]);
+                var cont_start_angle = parseFloat(cont_angle_max_pct_data[0] + pad_angle) * Math.PI / 180;
+                var cont_end_angle = parseFloat(cont_angle_max_pct_data[1] - pad_angle) * Math.PI / 180;
+
+                var sub_arr = sub_arr5;
+                var intPct = (d.Percentage)
+                if (intPct >= 1.6 && intPct <= 15) {
+                    sub_arr = sub_arr1;
+                } else if (intPct >= 1.3 && intPct < 1.6) {
+                    sub_arr = sub_arr2;
+                } else if (intPct >= 1 && intPct < 1.3) {
+                    sub_arr = sub_arr3;
+                } else if (intPct >= 0.6 && intPct < 1) {
+                    sub_arr = sub_arr4
+                } else if (intPct >= 0.3 && intPct < 0.6) {
+                    sub_arr = sub_arr5
+                } else if (intPct >= 0.1 && intPct < 0.3) {
+                    sub_arr = sub_arr6
+                } else {
+                    sub_arr = sub_arr7
+                }
+
+                var continent_angle_scale_fn = d3.scaleBand()
+                    .domain(sub_arr) // band_map.get(d.Continent) );
+                    .range([cont_start_angle, cont_end_angle]);
+                return continent_angle_scale_fn(intPct);
+            })
+
+        .radius(function(d) {
+
+            for (var i = 1; i < level_array.length; i++) {
+                if (parseFloat(d.Percentage) >= level_array[i]) {
+                    //console.log(i)
+                    break;
+                }
+
+            }
+            //console.log(d.Country, d.Percentage, i, level_Arr[i])
+
+            return r_arr[i - 1] + 20
+
+
+        })
+
+        let tooltip = d3.select('body')
+            .append('div')
+            .attr('id', 'tooltip')
+            .style("position", "absolute")
+            .style('visibility', 'hidden')
+            .style('width', 100)
+            .style('height', 100)
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "1px")
+            .style("border-radius", "5px")
+            .style("padding", "10px")
+
+        var nodes = svg.append("g")
+            .selectAll("circle")
+            .data(company)
+
+        .enter()
+
+
+
+        var circles_bg = nodes
+            .append("circle")
+            .attr("fill", "white")
+            .attr("r", d => size(d.Percentage) + 5)
+            .attr("transform", function(d) {
+                var coors = line([d]).slice(1).slice(0, -1);
+                return "translate(" + coors + ")"
+
+            })
+        let size2 = d3.scaleSqrt()
+            .domain([0, 14.32])
+            .range([5, 25])
+        var circle_text = nodes.append("text")
+            .attr("dy", d => size(parseFloat(d.Percentage)) + 9) //"1.2em")
+            //.attr("dx", "2em")
+            .text(d => d.Company.trim())
+            .attr('fill', 'black')
+            .attr('font-size', d => size2(d.Percentage / 8))
+            .attr("text-anchor", "middle")
+            .attr("font-family", "Cambria")
+            .attr("transform", function(d) {
+                var coors = line([d]).slice(1).slice(0, -1);
+                return "translate(" + coors + ")" + "rotate(-25)"
+
+            })
+
+
+        var circles_main = nodes
+            .append("circle")
+            .attr("fill", function(d) {
+                return color(d.Country.trim())
+            })
+            .attr("r", d => size(d.Percentage))
+            .attr("transform", function(d) {
+                var coors = line([d]).slice(1).slice(0, -1);
+                return "translate(" + coors + ")"
+
+            })
+            .on("mouseover", (d) => {
+                tooltip.transition()
+                    .style("visibility", "visible")
+
+                tooltip.text(d.Company + "," + d.Real_Percentage + "," + d.Country)
+            })
+            .on("mousemove", function() {
+                return tooltip.style("top", (event.pageY - 2) + "px").style("left", (event.pageX - 2) + "px");
+            })
+            .on("mouseout", (item) => {
+                tooltip.transition()
+                    .style("visibility", "hidden")
+            })
+
+
+        /*nodes.append("image")
+            .attr("xlink:href", "https://github.com/favicon.ico")
+            .attr("transform", function(d) {
+                var coors = line([d]).slice(1).slice(0, -1);
+                return "translate(" + coors + ")" + "rotate(-25)"
+            })
+            .attr("width", d => size(d.Percentage) - 0.5)
+            .attr("height", d => size(d.Percentage) - 0.5);*/
+
+        ///////-------LEGEND-----///////////
+
+
+
+        var legend_scale = d3.scaleLinear()
+            .domain([1, 100])
+            .range([3, 1.5])
+        var yscale = d3.scaleLinear()
+            .domain([1, 100])
+            .range([8, 1000])
+
+        var nodes = svg2.selectAll("g")
+            .data(company)
+        var nodes_enter = nodes.enter()
+            .append("g")
+        var circle = nodes_enter.append("circle")
+            .attr("fill", function(d) {
+                return color(d.Country.trim())
+            })
+            .attr("r", d => (legend_scale(d.Count)))
+            .attr("cx", 10)
+            .attr("cy", d => (yscale(d.Count)))
+
+
+        nodes_enter.append('text')
+            .text(d => d.Company.trim())
+            .attr('fill', 'black')
+            .attr('font-size', 8)
+            .attr("text-anchor", "right")
+            .attr("font-family", "sans-serif")
+            .attr("dx", 16)
+            .attr('dy', d => (yscale(d.Count)))
+
+
+
+    }
+</script>
+
+</html>
